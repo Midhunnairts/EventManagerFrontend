@@ -54,18 +54,23 @@
     </div>
   </div>
 
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-20">
+    <div class="gradient-text text-2xl font-bold animate-pulse">Loading Events...</div>
+  </div>
+
   <!-- Event Cards Grid -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
+  <div *ngIf="!loading" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
     <div *ngFor="let event of events" class="glass-card" style="overflow: hidden; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
       <div style="height: 200px; overflow: hidden; position: relative;">
-        <img [src]="event.banner" style="width: 100%; height: 100%; object-cover: cover;">
+        <img [src]="event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800'" style="width: 100%; height: 100%; object-fit: cover;">
         <div style="position: absolute; top: 1rem; right: 1rem; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 700;">
           ${{ event.price }}
         </div>
       </div>
       <div style="padding: 1.5rem;">
         <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">{{ event.title }}</h3>
-        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">by {{ event.organizer }}</p>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">by {{ event.organizerId?.name || 'Admin' }}</p>
         
         <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
@@ -74,19 +79,23 @@
           </div>
           <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
             <lucide-angular [img]="CalendarIcon" size="16" style="color: var(--primary);"></lucide-angular>
-            {{ event.date | date }}
+            {{ event.eventDate | date }}
           </div>
           <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
             <lucide-angular [img]="ClockIcon" size="16" style="color: var(--primary);"></lucide-angular>
-            {{ event.time }}
+            {{ event.eventDate | date:'shortTime' }}
           </div>
         </div>
 
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span style="color: var(--accent); font-size: 0.875rem; font-weight: 600;">{{ event.seatsLeft }} seats left</span>
+          <span style="color: var(--accent); font-size: 0.875rem; font-weight: 600;">{{ (event.maxAttendees - (event.attendees?.length || 0)) }} seats left</span>
           <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</button>
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="!loading && events.length === 0" class="text-center py-20">
+    <p style="color: var(--text-muted)">No events found matching your criteria.</p>
   </div>
 </div>
