@@ -1,0 +1,44 @@
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass-card w-full max-w-md p-8">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold gradient-text mb-2">Welcome Back</h1>
+      <p style="color: var(--text-muted)">Login to manage your events</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div *ngIf="error" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.5); color: #ef4444; padding: 0.75rem; border-radius: 0.5rem; font-size: 0.875rem;">
+        {{ error }}
+      </div>
+
+      <div>
+        <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Email Address</label>
+        <input type="email" name="email" [(ngModel)]="credentials.email" required 
+               class="input-glass" placeholder="name@example.com">
+      </div>
+
+      <div>
+        <label style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Password</label>
+        <input type="password" name="password" [(ngModel)]="credentials.password" required 
+               class="input-glass" placeholder="••••••••">
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.875rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" style="border-color: var(--glass-border); background: transparent; border-radius: 0.25rem;">
+          <span>Remember me</span>
+        </label>
+        <a routerLink="/forgot-password" style="color: var(--primary); text-decoration: none;">Forgot password?</a>
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.form.valid" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%;">
+        <lucide-angular [img]="LogInIcon" size="20"></lucide-angular>
+        <span>Login</span>
+      </button>
+
+      <p style="text-align: center; font-size: 0.875rem; color: var(--text-muted);">
+        Don't have an account? 
+        <a routerLink="/register" style="color: var(--primary); text-decoration: none; font-weight: 600;">Create one</a>
+      </p>
+    </form>
+  </div>
+</div>
