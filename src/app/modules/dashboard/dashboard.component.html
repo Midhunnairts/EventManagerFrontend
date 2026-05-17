@@ -1,11 +1,13 @@
 <div class="min-h-screen p-6" style="max-width: 1200px; margin: 0 auto;">
   <!-- Navbar Placeholder -->
-  <nav class="glass-card p-4 mb-8 flex items-center justify-between" style="display: flex; align-items: center; justify-content: space-between;">
+  <nav class="glass-card p-4 mb-8 flex items-center justify-between"
+    style="display: flex; align-items: center; justify-content: space-between;">
     <div class="text-2xl font-bold gradient-text">EventManager</div>
     <div style="display: flex; align-items: center; gap: 2rem;">
       <a href="#" style="color: white; text-decoration: none;" class="hover:text-primary">Events</a>
       <a href="#" style="color: white; text-decoration: none;" class="hover:text-primary">Create Event</a>
-      <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center;">
+      <div
+        style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center;">
         <lucide-angular [img]="UserIcon" size="20"></lucide-angular>
       </div>
     </div>
@@ -13,32 +15,34 @@
 
   <!-- Tabs -->
   <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-    <button (click)="setTab('upcoming')" 
-            [class.btn-primary]="activeTab === 'upcoming'"
-            style="padding: 0.5rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: all 0.3s; border: none; cursor: pointer;"
-            [style.background]="activeTab !== 'upcoming' ? 'rgba(255, 255, 255, 0.05)' : ''"
-            [style.color]="activeTab !== 'upcoming' ? 'white' : ''"
-            [style.border]="activeTab !== 'upcoming' ? '1px solid rgba(255, 255, 255, 0.1)' : ''">
+    <button (click)="setTab('upcoming')" [class.btn-primary]="activeTab === 'upcoming'"
+      style="padding: 0.5rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: all 0.3s; border: none; cursor: pointer;"
+      [style.background]="activeTab !== 'upcoming' ? 'rgba(255, 255, 255, 0.05)' : ''"
+      [style.color]="activeTab !== 'upcoming' ? 'white' : ''"
+      [style.border]="activeTab !== 'upcoming' ? '1px solid rgba(255, 255, 255, 0.1)' : ''">
       Upcoming Events
     </button>
-    <button (click)="setTab('past')" 
-            [class.btn-primary]="activeTab === 'past'"
-            style="padding: 0.5rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: all 0.3s; border: none; cursor: pointer;"
-            [style.background]="activeTab !== 'past' ? 'rgba(255, 255, 255, 0.05)' : ''"
-            [style.color]="activeTab !== 'past' ? 'white' : ''"
-            [style.border]="activeTab !== 'past' ? '1px solid rgba(255, 255, 255, 0.1)' : ''">
+    <button (click)="setTab('past')" [class.btn-primary]="activeTab === 'past'"
+      style="padding: 0.5rem 1.5rem; border-radius: 9999px; font-weight: 600; transition: all 0.3s; border: none; cursor: pointer;"
+      [style.background]="activeTab !== 'past' ? 'rgba(255, 255, 255, 0.05)' : ''"
+      [style.color]="activeTab !== 'past' ? 'white' : ''"
+      [style.border]="activeTab !== 'past' ? '1px solid rgba(255, 255, 255, 0.1)' : ''">
       Past Events
     </button>
   </div>
 
   <!-- Search & Filters -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+  <div
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
     <div style="grid-column: span 2; position: relative;">
-      <lucide-angular [img]="SearchIcon" size="20" style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted);"></lucide-angular>
-      <input type="text" placeholder="Search events..." class="input-glass" style="padding-left: 3rem; width: 100%; box-sizing: border-box;">
+      <lucide-angular [img]="SearchIcon" size="20"
+        style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted);"></lucide-angular>
+      <input type="text" placeholder="Search events..." class="input-glass"
+        style="padding-left: 3rem; width: 100%; box-sizing: border-box;">
     </div>
     <div style="position: relative;">
-      <lucide-angular [img]="FilterIcon" size="20" style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted); pointer-events: none;"></lucide-angular>
+      <lucide-angular [img]="FilterIcon" size="20"
+        style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted); pointer-events: none;"></lucide-angular>
       <select class="input-glass" style="padding-left: 3rem; width: 100%; appearance: none;">
         <option>All Categories</option>
         <option>Tech</option>
@@ -46,7 +50,8 @@
       </select>
     </div>
     <div style="position: relative;">
-      <lucide-angular [img]="SortIcon" size="20" style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted); pointer-events: none;"></lucide-angular>
+      <lucide-angular [img]="SortIcon" size="20"
+        style="position: absolute; left: 1rem; top: 0.75rem; color: var(--text-muted); pointer-events: none;"></lucide-angular>
       <select class="input-glass" style="padding-left: 3rem; width: 100%; appearance: none;">
         <option>Sort by: Latest</option>
         <option>Price: Low to High</option>
@@ -61,17 +66,22 @@
 
   <!-- Event Cards Grid -->
   <div *ngIf="!loading" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
-    <div *ngFor="let event of events" class="glass-card" style="overflow: hidden; transition: transform 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+    <div *ngFor="let event of events" [routerLink]="['/event', event._id]" class="glass-card"
+      style="overflow: hidden; transition: transform 0.3s; cursor: pointer;"
+      onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
       <div style="height: 200px; overflow: hidden; position: relative;">
-        <img [src]="event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800'" style="width: 100%; height: 100%; object-fit: cover;">
-        <div style="position: absolute; top: 1rem; right: 1rem; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 700;">
+        <img [src]="event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800'"
+          style="width: 100%; height: 100%; object-fit: cover;">
+        <div
+          style="position: absolute; top: 1rem; right: 1rem; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 700;">
           ${{ event.price }}
         </div>
       </div>
       <div style="padding: 1.5rem;">
         <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">{{ event.title }}</h3>
-        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">by {{ event.organizerId?.name || 'Admin' }}</p>
-        
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">by {{ event.organizerId?.name ||
+          'Admin' }}</p>
+
         <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
           <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted);">
             <lucide-angular [img]="MapPinIcon" size="16" style="color: var(--primary);"></lucide-angular>
@@ -88,8 +98,10 @@
         </div>
 
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span style="color: var(--accent); font-size: 0.875rem; font-weight: 600;">{{ (event.maxAttendees - (event.attendees?.length || 0)) }} seats left</span>
-          <button class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</button>
+          <span style="color: var(--accent); font-size: 0.875rem; font-weight: 600;">{{ (event.maxAttendees -
+            (event.attendees?.length || 0)) }} seats left</span>
+          <button [routerLink]="['/event', event._id]" class="btn-primary"
+            style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</button>
         </div>
       </div>
     </div>

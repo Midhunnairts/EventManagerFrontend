@@ -1,0 +1,152 @@
+<div class="min-h-screen p-6" style="max-width: 1000px; margin: 0 auto;">
+  <div *ngIf="loading" class="flex items-center justify-center min-h-[60vh]">
+    <div class="gradient-text text-2xl font-bold animate-pulse">Loading Event Details...</div>
+  </div>
+
+  <div *ngIf="!loading && event">
+    <!-- Back Button -->
+    <button routerLink="/dashboard"
+      style="display: flex; align-items: center; gap: 0.5rem; background: none; border: none; color: white; cursor: pointer; margin-bottom: 2rem; font-weight: 600;"
+      class="hover:text-primary transition-colors">
+      <lucide-angular [img]="BackIcon" size="20"></lucide-angular>
+      Back to Dashboard
+    </button>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-2 space-y-8">
+        <div class="glass-card overflow-hidden">
+          <img [src]="event.bannerImage || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800'"
+            style="width: 100%; height: 400px; object-fit: cover;">
+        </div>
+
+        <div class="glass-card p-8">
+          <h1 class="text-4xl font-bold mb-4 gradient-text">{{ event.title }}</h1>
+          <div class="flex flex-wrap gap-4 mb-6">
+            <span *ngFor="let tag of event.tags"
+              style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
+              #{{ tag }}
+            </span>
+          </div>
+
+          <div class="prose prose-invert max-w-none">
+            <h2 class="text-xl font-bold mb-3">About This Event</h2>
+            <p style="color: var(--text-muted); line-height: 1.8;">{{ event.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <div class="glass-card p-6">
+          <div style="font-size: 2rem; font-weight: 800; margin-bottom: 1.5rem;" class="gradient-text">
+            ${{ event.price }}
+          </div>
+
+          <div class="space-y-4 mb-8">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div
+                style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                <lucide-angular [img]="CalendarIcon" size="20"></lucide-angular>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; font-weight: 700;">Date</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">{{ event.eventDate | date:'fullDate' }}
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div
+                style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                <lucide-angular [img]="ClockIcon" size="20"></lucide-angular>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; font-weight: 700;">Time</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">{{ event.eventDate | date:'shortTime' }}
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div
+                style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                <lucide-angular [img]="MapPinIcon" size="20"></lucide-angular>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; font-weight: 700;">Venue</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">{{ event.venue }}</div>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div
+                style="width: 40px; height: 40px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                <lucide-angular [img]="UsersIcon" size="20"></lucide-angular>
+              </div>
+              <div>
+                <div style="font-size: 0.875rem; font-weight: 700;">Availability</div>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">{{ (event.maxAttendees -
+                  (event.attendees?.length || 0)) }} spots remaining</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add People Form -->
+          <div class="mb-6 space-y-4">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <h3 style="font-size: 0.875rem; font-weight: 700;">Add Attendees</h3>
+              <button (click)="addAttendee()"
+                style="background: none; border: none; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; font-weight: 600;">
+                <lucide-angular [img]="AddUserIcon" size="14"></lucide-angular>
+                Add More
+              </button>
+            </div>
+
+            <div *ngFor="let attendee of attendees; let i = index"
+              style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="text" [(ngModel)]="attendee.name" placeholder="Full Name" class="input-glass"
+                style="font-size: 0.875rem; padding: 0.5rem;">
+              <select [(ngModel)]="attendee.role" class="input-glass"
+                style="font-size: 0.875rem; padding: 0.5rem; width: 100px;">
+                <option value="Guest">Guest</option>
+                <option value="VIP">VIP</option>
+                <option value="Staff">Staff</option>
+              </select>
+              <button *ngIf="attendees.length > 1" (click)="removeAttendee(i)"
+                style="background: none; border: none; color: #ef4444; cursor: pointer;">
+                <lucide-angular [img]="DeleteIcon" size="18"></lucide-angular>
+              </button>
+            </div>
+          </div>
+
+          <button (click)="bookNow()" class="btn-primary w-full"
+            style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%;">
+            <lucide-angular [img]="TicketIcon" size="20"></lucide-angular>
+            Book Now
+          </button>
+        </div>
+
+        <!-- Organizer Info -->
+        <div class="glass-card p-6">
+          <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem;">Organizer</h3>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div
+              style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">
+              {{ event.organizerId?.name?.charAt(0) || 'A' }}
+            </div>
+            <div>
+              <div style="font-weight: 700;">{{ event.organizerId?.name || 'Admin' }}</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Verified Organizer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !event" class="text-center py-20">
+    <p style="color: var(--text-muted)">Event not found.</p>
+    <button routerLink="/dashboard" class="btn-primary mt-4">Go Back</button>
+  </div>
+</div>

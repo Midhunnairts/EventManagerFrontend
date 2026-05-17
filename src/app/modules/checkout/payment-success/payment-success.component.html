@@ -1,0 +1,53 @@
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div *ngIf="loading" class="text-center">
+    <div class="gradient-text text-2xl font-bold animate-pulse">Confirming Payment...</div>
+  </div>
+
+  <div *ngIf="!loading && order" class="glass-card p-10 max-w-2xl w-full text-center">
+    <div style="width: 80px; height: 80px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--accent);">
+      <lucide-angular [img]="CheckIcon" size="48"></lucide-angular>
+    </div>
+
+    <h1 class="text-4xl font-bold gradient-text mb-4">Payment Successful!</h1>
+    <p style="color: var(--text-muted); margin-bottom: 3rem;">Your booking is confirmed. Your ticket has been generated and is ready for download.</p>
+
+    <div class="glass-card p-6 text-left mb-8 space-y-4" style="background: rgba(255,255,255,0.02);">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <lucide-angular [img]="TicketIcon" size="20" class="text-primary"></lucide-angular>
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Event</div>
+          <div style="font-weight: 700;">{{ order.eventId.title }}</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <lucide-angular [img]="MapPinIcon" size="20" class="text-primary"></lucide-angular>
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Venue</div>
+          <div style="font-weight: 700;">{{ order.eventId.venue }}</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <lucide-angular [img]="CalendarIcon" size="20" class="text-primary"></lucide-angular>
+        <div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">Date & Time</div>
+          <div style="font-weight: 700;">{{ order.eventId.eventDate | date:'medium' }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button (click)="downloadTicket()" class="btn-primary" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem;">
+        <lucide-angular [img]="DownloadIcon" size="20"></lucide-angular>
+        Download Ticket PDF
+      </button>
+      <button routerLink="/dashboard" class="btn-glass" style="padding: 1rem 2rem;">
+        Return to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !order" class="text-center">
+    <p style="color: var(--text-muted)">Order not found.</p>
+    <button routerLink="/dashboard" class="btn-primary mt-4">Go to Dashboard</button>
+  </div>
+</div>
