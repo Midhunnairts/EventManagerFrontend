@@ -1,0 +1,108 @@
+<div class="min-h-screen flex items-center justify-center p-6">
+  <div class="glass-card p-10 max-w-3xl w-full">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold gradient-text mb-2">Create New Event</h1>
+      <p style="color: var(--text-muted)">Fill in the details to publish your event</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #eventForm="ngForm" class="space-y-6">
+      
+      <div *ngIf="errorMessage" class="p-4 rounded-lg bg-red-500/10 border border-red-500/50 text-red-500 text-sm">
+        {{ errorMessage }}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Event Title -->
+        <div class="space-y-2 md:col-span-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Event Title</label>
+          <div class="relative">
+            <lucide-angular [img]="CalendarIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="text" [(ngModel)]="eventData.title" name="title" required placeholder="e.g. Annual Tech Conference" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Category & Date -->
+        <div class="space-y-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Category</label>
+          <div class="relative">
+            <lucide-angular [img]="TagIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <select [(ngModel)]="eventData.category" name="category" required class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box; appearance: none;">
+              <option value="Tech">Tech</option>
+              <option value="Music">Music</option>
+              <option value="Art">Art</option>
+              <option value="Business">Business</option>
+              <option value="Sports">Sports</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Date & Time</label>
+          <div class="relative">
+            <input type="datetime-local" [(ngModel)]="eventData.eventDate" name="eventDate" required class="input-glass" style="width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Venue -->
+        <div class="space-y-2 md:col-span-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Venue</label>
+          <div class="relative">
+            <lucide-angular [img]="MapPinIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="text" [(ngModel)]="eventData.venue" name="venue" required placeholder="e.g. San Francisco Convention Center" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Price & Max Attendees -->
+        <div class="space-y-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Ticket Price ($)</label>
+          <div class="relative">
+            <lucide-angular [img]="DollarIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="number" [(ngModel)]="eventData.price" name="price" required min="0" placeholder="0.00" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Max Attendees</label>
+          <div class="relative">
+            <lucide-angular [img]="UsersIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="number" [(ngModel)]="eventData.maxAttendees" name="maxAttendees" required min="1" placeholder="100" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="space-y-2 md:col-span-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Tags (Comma Separated)</label>
+          <div class="relative">
+            <lucide-angular [img]="TagIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="text" [(ngModel)]="eventData.tags" name="tags" placeholder="e.g. Tech, AI, Startup" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Banner Image URL -->
+        <div class="space-y-2 md:col-span-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Banner Image URL</label>
+          <div class="relative">
+            <lucide-angular [img]="ImageIcon" size="20" class="absolute left-3 top-3 text-muted" style="color: var(--text-muted); pointer-events: none;"></lucide-angular>
+            <input type="url" [(ngModel)]="eventData.bannerImage" name="bannerImage" placeholder="https://example.com/image.jpg" class="input-glass" style="padding-left: 2.5rem; width: 100%; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-2 md:col-span-2">
+          <label style="font-size: 0.875rem; font-weight: 600; color: var(--text-white);">Event Description</label>
+          <textarea [(ngModel)]="eventData.description" name="description" required rows="4" placeholder="Tell us more about the event..." class="input-glass" style="width: 100%; box-sizing: border-box; resize: vertical; padding: 1rem;"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-4 flex gap-4">
+        <button type="button" routerLink="/dashboard" class="btn-glass flex-1" style="padding: 0.75rem;">Cancel</button>
+        <button type="submit" [disabled]="!eventForm.form.valid || loading" class="btn-primary flex-1" style="padding: 0.75rem; display: flex; justify-content: center; align-items: center;">
+          <span *ngIf="loading" class="animate-pulse">Creating...</span>
+          <span *ngIf="!loading">Create Event</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

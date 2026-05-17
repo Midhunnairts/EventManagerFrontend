@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LucideAngularModule, Search, Filter, SortAsc, MapPin, Calendar, Clock, User } from 'lucide-angular';
 import { EventService } from '../../core/services/event.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +24,16 @@ export class DashboardComponent implements OnInit {
   allEvents: any[] = [];
   events: any[] = [];
   loading = true;
+  isOrganizer = false;
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    const user = this.authService.userValue;
+    this.isOrganizer = user?.role === 'Organizer';
     this.fetchEvents();
   }
 

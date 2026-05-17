@@ -5,7 +5,7 @@
     <div class="text-2xl font-bold gradient-text">EventManager</div>
     <div style="display: flex; align-items: center; gap: 2rem;">
       <a href="#" style="color: white; text-decoration: none;" class="hover:text-primary">Events</a>
-      <a href="#" style="color: white; text-decoration: none;" class="hover:text-primary">Create Event</a>
+      <a *ngIf="isOrganizer" routerLink="/create-event" style="color: white; text-decoration: none;" class="hover:text-primary">Create Event</a>
       <div
         style="width: 40px; height: 40px; border-radius: 50%; background: rgba(99, 102, 241, 0.2); display: flex; align-items: center; justify-content: center;">
         <lucide-angular [img]="UserIcon" size="20"></lucide-angular>

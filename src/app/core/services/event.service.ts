@@ -17,4 +17,9 @@ export class EventService {
   getEventById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+
+  createEvent(eventData: any, token: string): Observable<any> {
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.http.post<any>(this.apiUrl, eventData, { headers });
+  }
 }
