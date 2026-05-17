@@ -5,6 +5,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, CreditCard, ShieldCheck, Ticket, Receipt } from 'lucide-angular';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-checkout',
@@ -29,7 +30,7 @@ export class CheckoutComponent implements OnInit {
     private authService: AuthService,
     private http: HttpClient,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cartService.cart$.subscribe(items => {
@@ -46,10 +47,10 @@ export class CheckoutComponent implements OnInit {
 
   processPayment() {
     if (this.cartItems.length === 0) return;
-    
+
     this.loading = true;
     const user = this.authService.userValue;
-    
+
     if (!user) {
       this.router.navigate(['/login']);
       return;
@@ -62,8 +63,8 @@ export class CheckoutComponent implements OnInit {
     };
 
     const headers = { Authorization: `Bearer ${user.token}` };
-    
-    this.http.post('http://localhost:5001/api/orders', orderData, { headers }).subscribe({
+
+    this.http.post(`${environment.apiUrl}/orders`, orderData, { headers }).subscribe({
       next: (order: any) => {
         this.cartService.clearCart();
         this.router.navigate(['/payment-success'], { queryParams: { orderId: order._id } });
